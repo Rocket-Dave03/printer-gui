@@ -7,7 +7,7 @@
 #include <sys/types.h>
 #include <stddef.h>
 
-#include "src/pixel.h"
+#include "pixel.h"
 
 
 struct Buffer *create_buffer(uint width, uint height) {
@@ -16,7 +16,7 @@ struct Buffer *create_buffer(uint width, uint height) {
 		goto free_buf;
 	}
 	
-	buf->height = width;
+	buf->width = width;
 	buf->height = height;
 	
 	struct Pixel *data = malloc(sizeof(struct Pixel) * width * height);
