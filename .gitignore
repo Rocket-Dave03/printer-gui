@@ -1,2 +1,4 @@
 build.sh
 run.sh
+.cache
+.build
