@@ -1,6 +1,7 @@
 #include "buffer.h"
 
 
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -41,6 +42,7 @@ void delete_buffer(struct Buffer *buf) {
 	free(buf);
 }
 
+
 int resize_buffer(struct Buffer *buf, uint width, uint height) {
 	struct Pixel *new_data = realloc(buf->pixels, sizeof(struct Pixel) * width * height);
 	if (new_data == NULL) {
@@ -52,7 +54,6 @@ int resize_buffer(struct Buffer *buf, uint width, uint height) {
 	
 	return 0;
 }
-
 
 void clear_buffer(struct Buffer *buf) {
 	memset(buf, 0x00, sizeof(struct Pixel) * buf->width * buf->height);
@@ -66,3 +67,50 @@ void fill_buffer(struct Buffer *buf, struct Pixel p) {
 		buf->pixels[i] = p;	
 	}
 }
+
+
+bool is_in_buffer(struct Buffer *buf, uint x, uint y) {
+	if (
+		x >= 0 &&
+		x < buf->width &&
+		y >= 0 &&
+		y < buf->height
+	   ) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+struct Pixel read_pixel_from_buffer(struct Buffer *buf, uint x, uint y) {
+	if (is_in_buffer(buf, x, y)) {
+		return buf->pixels[y*buf->width + x];
+	} else {
+		return (struct Pixel){0,0,0,0xFF};
+	}
+}
+
+
+void write_buffer(struct Buffer *self, struct Buffer *other, uint x, uint y) {
+	if (x >= self->width || y >= self->height) {
+		return;
+	}
+	if ((x + other->width-1) < 0 || (y + other->height-1) < 0) {
+		return;
+	}
+	for (int col = 0; col < other->width; col++) {
+		for (int row = 0; row < other->height; row++) {
+			int cur_x = x+col;
+			int cur_y = y+row;
+			struct Pixel p = read_pixel_from_buffer(other, col, row);
+			write_pixel_to_buffer(self, cur_x, cur_y, p);
+		}
+	}
+}
+
+void write_pixel_to_buffer(struct Buffer *buf, uint x, uint y, struct Pixel p) {
+	if (is_in_buffer(buf, x, y)) {
+		buf->pixels[y*buf->width + x] = p;
+	}
+}
+
