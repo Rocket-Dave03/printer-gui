@@ -50,11 +50,22 @@ int main() {
 	struct Buffer *box = create_buffer(32, 32);
 	if (box == NULL) {
 		fprintf(stderr, "Failed to create_buffer");
+		delete_buffer(render_buffer);
 		return 1;
 	}
 	struct Buffer *bg = create_buffer(240, 320);
 	if (bg == NULL) {
 		fprintf(stderr, "Failed to create_buffer");
+		delete_buffer(render_buffer);
+		delete_buffer(box);
+		return 1;
+	}
+	struct Buffer *copy = create_buffer(32, 32);
+	if (copy == NULL) {
+		fprintf(stderr, "Failed to create_buffer");
+		delete_buffer(render_buffer);
+		delete_buffer(box);
+		delete_buffer(bg);
 		return 1;
 	}
 	make_checkerboard(bg);
@@ -69,9 +80,15 @@ int main() {
 		});
 		write_buffer(render_buffer, bg, 0, 0);
 		write_buffer(render_buffer, box, 24, 24);
+		read_to_buffer(render_buffer, copy, 5, 5);
+		write_buffer(render_buffer, copy, 25, 25);
 		stbi_write_png("/run/user/1000/test.png", render_buffer->width, render_buffer->height, 4, (render_buffer->pixels), render_buffer->width * sizeof(struct Pixel));
 		h = fmod(h+5, 360.0);
 		usleep(1000 * 1000/60);
 	}
+	delete_buffer(bg);
+	delete_buffer(box);
+	delete_buffer(copy);
+	delete_buffer(render_buffer);
 	return 0;
 }
