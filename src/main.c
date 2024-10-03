@@ -11,7 +11,7 @@
 
 void make_checkerboard(struct Buffer *bg) {
 	struct Pixel a = {51,51,51,255};
-	struct Pixel b = {255, 255, 255,255};
+	struct Pixel b = {255, 255, 255, 255};
 	
 	struct Buffer *buf_a = create_buffer(8, 8);
 	if (buf_a == NULL) {
@@ -64,12 +64,12 @@ int main() {
 			255*(0.5*sin((h+  0)*(M_PI/180.0))+0.5),
 			255*(0.5*sin((h+120)*(M_PI/180.0))+0.5),
 			255*(0.5*sin((h+240)*(M_PI/180.0))+0.5),
-			255
+			50
 		});
 		write_buffer(buf, bg, 0, 0);
-		write_buffer(buf, box, 25, 25);
-		stbi_write_png("/run/user/1000/test.png", buf->width, buf->height, 4, (uint8_t *)(buf->pixels), buf->width * sizeof(struct Pixel));
-		h =  fmod(h+5, 360.0);
+		write_buffer(buf, box, (int)(25+h) % 240, 25);
+		stbi_write_png("/run/user/1000/test.png", buf->width, buf->height, 4, (buf->pixels), buf->width * sizeof(struct Pixel));
+		h = fmod(h+5, 360.0);
 		usleep(1000 * 1000/60);
 	}
 	return 0;
