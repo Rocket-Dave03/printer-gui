@@ -37,6 +37,9 @@ free_buf:
 }
 
 void delete_buffer(struct Buffer *buf) {
+	if (buf == NULL ) {
+		return;
+	}
 	free(buf->pixels);
 	buf->pixels = NULL;
 	free(buf);
