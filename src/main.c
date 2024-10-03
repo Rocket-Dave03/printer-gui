@@ -33,7 +33,6 @@ void make_checkerboard(struct Buffer *bg) {
 			} else {
 				write_buffer(bg, buf_b, x*8, y*8);
 			}
-			printf("A");
 		}
 	}
 	delete_buffer(buf_a);
