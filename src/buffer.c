@@ -102,8 +102,27 @@ void write_buffer(struct Buffer *self, struct Buffer *other, uint x, uint y) {
 		for (int row = 0; row < other->height; row++) {
 			int cur_x = x+col;
 			int cur_y = y+row;
-			struct Pixel p = read_pixel_from_buffer(other, col, row);
-			write_pixel_to_buffer(self, cur_x, cur_y, p);
+			struct Pixel a = read_pixel_from_buffer(other, col, row);
+			struct Pixel b = read_pixel_from_buffer(self, x+col, y+row);
+			float ra = a.r / 255.0;
+			float ga = a.g / 255.0;
+			float ba = a.b / 255.0;
+			float aa = a.a / 255.0;
+			float rb = b.r / 255.0;
+			float gb = b.g / 255.0;
+			float bb = b.b / 255.0;
+			float ab = b.a / 255.0;
+
+			float alpha_o = aa + ab * (1-aa);
+			float ro = (ra*aa + rb*ab *(1-aa)) / alpha_o;
+			float go = (ga*aa + gb*ab *(1-aa)) / alpha_o;
+			float bo = (ba*aa + bb*ab *(1-aa)) / alpha_o;
+			write_pixel_to_buffer(self, cur_x, cur_y, (struct Pixel) {
+				ro * 255,
+				go * 255,
+				bo * 255,
+				alpha_o * 255,
+			});
 		}
 	}
 }
