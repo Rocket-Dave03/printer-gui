@@ -133,3 +133,21 @@ void write_pixel_to_buffer(struct Buffer *buf, uint x, uint y, struct Pixel p) {
 	}
 }
 
+struct Buffer *read_to_buffer(struct Buffer *from_buf, uint x, uint y, uint w, uint h) {
+	struct Buffer *output = create_buffer(w, h);
+	if (output == NULL) {
+		return output;
+	}
+
+	for (int cur_x = x; cur_x < w; cur_x++) {
+		for (int cur_y = y; cur_y < h; cur_y++) {
+			if (is_in_buffer(from_buf, cur_x+x, cur_y+y)) {
+				struct Pixel p = read_pixel_from_buffer(from_buf, cur_x+x, cur_y+y);
+				write_pixel_to_buffer(output, cur_x, cur_y, p);
+			} else {
+				write_pixel_to_buffer(output, cur_x, cur_y, (struct Pixel){0,0,0,0});
+			}
+		}
+	}
+	return output;
+}

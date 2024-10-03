@@ -23,3 +23,5 @@ struct Pixel read_pixel_from_buffer(struct Buffer *buf, uint x, uint y);
 
 void write_buffer(struct Buffer *self, struct Buffer *other, uint x, uint y);
 void write_pixel_to_buffer(struct Buffer *buf, uint x, uint y, struct Pixel p);
+
+struct Buffer *read_to_buffer(struct Buffer *from_buf, uint x, uint y, uint w, uint h);
