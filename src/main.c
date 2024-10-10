@@ -32,6 +32,7 @@ int main() {
 		h = fmod(h+5, 360.0);
 		usleep(1000 * 1000/60);
 	}
+	gui_delete_element(box);
 	delete_buffer(render_buffer);
 	return 0;
 }
