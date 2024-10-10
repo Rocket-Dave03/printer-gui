@@ -1,1 +1,1 @@
-gui_src = files('gui_element.c')
+sources += files('gui_box.c', 'gui_element.c')
