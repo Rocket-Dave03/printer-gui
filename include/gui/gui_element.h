@@ -30,7 +30,7 @@ struct GuiElement {
 
 	struct Buffer *buf;
 	uint32_t childCount;
-	struct GuiElement *children;
+	struct GuiElement **children;
 };
 
 
