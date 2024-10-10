@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct GuiElement *gui_box_create(struct GuiElement *parent, uint width, uint height) {
+struct GuiElement *gui_box_create(struct GuiElement *parent, uint width, uint height, struct Pixel fill_color) {
 	struct GuiElement *elem = malloc(sizeof(struct GuiElement));
 	if (elem == NULL) {
 		fprintf(stderr, "Failed to create gui_box");
@@ -26,6 +26,7 @@ struct GuiElement *gui_box_create(struct GuiElement *parent, uint width, uint he
 		free(elem);
 		return  NULL;
 	}
+	fill_buffer(buf, fill_color);
 	elem->buf = buf;
 	return elem;
 }
