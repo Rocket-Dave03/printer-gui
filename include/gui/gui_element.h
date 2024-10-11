@@ -21,8 +21,8 @@ enum GuiInput {
 struct Padding {
 	uint left;
 	uint right;
-	uint up;
-	uint down;
+	uint top;
+	uint bottom;
 };
 
 struct GuiStyle {
@@ -54,6 +54,15 @@ struct GuiElement {
 };
 
 
-void gui_delete_element(struct GuiElement *elem);
+void gui_delete_element(struct GuiElement *self);
 
-void gui_propogate_update(struct GuiElement *elem, GuiUpdateType type);
+void gui_propogate_update(struct GuiElement *self, GuiUpdateType type);
+void gui_add_child(struct GuiElement *self, struct GuiElement *child);
+void gui_remove_child(struct GuiElement *self, struct GuiElement *child);
+
+void gui_set_style_padding_all(struct GuiElement *self, uint size);
+void gui_set_style_margin_all(struct GuiElement *self, uint size);
+void gui_set_style_padding(struct GuiElement *self, struct Padding padding);
+void gui_set_style_margin(struct GuiElement *self, struct Padding margin);
+
+struct GuiSize gui_get_max_internal_size(struct GuiElement *self);
