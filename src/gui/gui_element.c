@@ -6,8 +6,8 @@ void gui_delete_element(struct GuiElement *elem) {
 	if (elem == NULL) {
 		return;
 	}
-	for(int i = 0; i < elem->childCount; i++) {
-		gui_delete_element(elem->children[i]);
+	for(int i = 0; i < elem->_childCount; i++) {
+		gui_delete_element(elem->_children[i]);
 	}
 	free(elem->data);
 	elem->data = NULL;

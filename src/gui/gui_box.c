@@ -17,8 +17,13 @@ struct GuiElement *gui_box_create(struct GuiElement *parent, uint width, uint he
 	elem->update = NULL;
 	elem->send_input = NULL;
 	elem->data = NULL;
-	elem->childCount = 0;
-	elem->children = NULL;
+	elem->_childCount = 0;
+	elem->_children = NULL;
+
+	elem->style = (struct GuiStyle){
+		{5,5,5,5},
+		{5,5,5,5},
+	};
 
 	struct Buffer *buf = create_buffer(width, height);
 	if (buf == NULL) {
@@ -29,4 +34,8 @@ struct GuiElement *gui_box_create(struct GuiElement *parent, uint width, uint he
 	fill_buffer(buf, fill_color);
 	elem->buf = buf;
 	return elem;
+}
+
+void gui_box_update(struct GuiElement *self) {
+
 }
