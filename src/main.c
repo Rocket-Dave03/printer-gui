@@ -21,11 +21,11 @@ int main() {
 		return 1;
 	}
 
-	struct GuiElement *box = gui_box_create(NULL,100,100, (struct Pixel){80,80,80,255});
+	struct GuiElement *box = gui_box_create(NULL,100,100, (struct Pixel){51,51,51,255});
 
 	float h = 0.0;
 	while (1) {
-		fill_buffer(render_buffer, (struct Pixel){51,51,51,255});
+		fill_buffer(render_buffer, (struct Pixel){0,0,0,255});
 		write_buffer(render_buffer, box->buf, 50, 50);
 
 		stbi_write_png("/run/user/1000/test.png", render_buffer->width, render_buffer->height, 4, (render_buffer->pixels), render_buffer->width * sizeof(struct Pixel));
