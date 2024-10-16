@@ -22,11 +22,11 @@ void gui_propogate_update(struct GuiElement *elem, GuiUpdateType type) {
 
 
 
-void gui_set_style_padding_all(struct GuiElement *self, uint size) {
+void gui_set_style_padding_all(struct GuiElement *self, uint32_t size) {
 	gui_set_style_padding(self, (struct Padding){size,size,size,size});
 }
 
-void gui_set_style_margin_all(struct GuiElement *self, uint size) {
+void gui_set_style_margin_all(struct GuiElement *self, uint32_t size) {
 	gui_set_style_margin(self, (struct Padding){size,size,size,size});
 }
 
@@ -41,11 +41,11 @@ void gui_set_style_margin(struct GuiElement *self, struct Padding margin) {
 
 
 struct GuiSize gui_get_max_internal_size(struct GuiElement *self) {
-	uint width = self->_size.width - 
+	uint32_t width = self->_size.width - 
 		self->style.padding.left - 
 		self->style.padding.right;
 	
-	uint height = self->_size.height - 
+	uint32_t height = self->_size.height - 
 		self->style.padding.top - 
 		self->style.padding.bottom;
 

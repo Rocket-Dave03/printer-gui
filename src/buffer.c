@@ -11,7 +11,7 @@
 #include "pixel.h"
 
 
-struct Buffer *create_buffer(uint width, uint height) {
+struct Buffer *create_buffer(uint32_t width, uint32_t height) {
 	struct Buffer *buf = malloc(sizeof(struct Buffer));
 	if (buf == NULL) {
 		goto free_buf;
@@ -46,7 +46,7 @@ void delete_buffer(struct Buffer *buf) {
 }
 
 
-int resize_buffer(struct Buffer *buf, uint width, uint height) {
+int resize_buffer(struct Buffer *buf, uint32_t width, uint32_t height) {
 	struct Pixel *new_data = realloc(buf->pixels, sizeof(struct Pixel) * width * height);
 	if (new_data == NULL) {
 		return -1;
@@ -72,7 +72,7 @@ void fill_buffer(struct Buffer *buf, struct Pixel p) {
 }
 
 
-bool is_in_buffer(struct Buffer *buf, uint x, uint y) {
+bool is_in_buffer(struct Buffer *buf, uint32_t x, uint32_t y) {
 	if (
 		x >= 0 &&
 		x < buf->width &&
@@ -85,7 +85,7 @@ bool is_in_buffer(struct Buffer *buf, uint x, uint y) {
 	}
 }
 
-struct Pixel read_pixel_from_buffer(struct Buffer *buf, uint x, uint y) {
+struct Pixel read_pixel_from_buffer(struct Buffer *buf, uint32_t x, uint32_t y) {
 	if (is_in_buffer(buf, x, y)) {
 		return buf->pixels[y*buf->width + x];
 	} else {
@@ -94,7 +94,7 @@ struct Pixel read_pixel_from_buffer(struct Buffer *buf, uint x, uint y) {
 }
 
 
-void write_buffer(struct Buffer *self, struct Buffer *other, uint x, uint y) {
+void write_buffer(struct Buffer *self, struct Buffer *other, uint32_t x, uint32_t y) {
 	if (x >= self->width || y >= self->height) {
 		return;
 	}
@@ -130,13 +130,13 @@ void write_buffer(struct Buffer *self, struct Buffer *other, uint x, uint y) {
 	}
 }
 
-void write_pixel_to_buffer(struct Buffer *buf, uint x, uint y, struct Pixel p) {
+void write_pixel_to_buffer(struct Buffer *buf, uint32_t x, uint32_t y, struct Pixel p) {
 	if (is_in_buffer(buf, x, y)) {
 		buf->pixels[y*buf->width + x] = p;
 	}
 }
 
-void read_to_buffer(struct Buffer *src_buf, struct Buffer *dst_buf, uint x, uint y) {
+void read_to_buffer(struct Buffer *src_buf, struct Buffer *dst_buf, uint32_t x, uint32_t y) {
 	if (src_buf == NULL || dst_buf == NULL) {
 		return;
 	}
