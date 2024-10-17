@@ -11,6 +11,7 @@ struct GuiLayout *gui_layout_vertical_create(struct GuiElement *parent) {
 	self->parent = parent;
 	parent->layout = self;
 	self->_children = 0;
+	self->_childCount = 0;
 
 	self->get_child_position = gui_layout_vertical_get_child_position;
 	self->get_child_size = gui_layout_vertical_get_child_size;
