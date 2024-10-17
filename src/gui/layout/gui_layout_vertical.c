@@ -3,7 +3,6 @@
 #include "gui/gui_element.h"
 
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 struct GuiLayout *gui_layout_vertical_create(struct GuiElement *parent) {
@@ -52,7 +51,7 @@ struct GuiSize gui_layout_vertical_get_child_size(struct GuiLayout *self, uint32
 	uint ret_x = (total_size.width) - margin.left - margin.right - padding_h;
 	uint ret_y = (total_size.height / self->_childCount) - margin.top - margin.bottom - padding_v;
 	return (struct GuiSize) {
-	ret_x,
-	ret_y,
+		ret_x,
+		ret_y,
 	};
 }
