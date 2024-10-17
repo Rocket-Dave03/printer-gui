@@ -55,10 +55,10 @@ void gui_set_style_margin(struct GuiElement *self, struct Padding margin) {
 
 
 struct GuiSize gui_get_max_internal_size(struct GuiElement *self) {
-	uint32_t width = self->_size.width - 
-		self->style.padding.left - 
+	uint32_t width = self->_size.width -
+		self->style.padding.left -
 		self->style.padding.right;
-	
+
 	uint32_t height = self->_size.height - 
 		self->style.padding.top - 
 		self->style.padding.bottom;

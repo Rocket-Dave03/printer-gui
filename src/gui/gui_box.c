@@ -27,7 +27,7 @@ struct GuiElement *gui_box_create(struct GuiElement *parent, struct Pixel fill_c
 
 	elem->update_type = GUI_UPDATE_STATIC;
 	elem->update = gui_box_update;
-	elem->delete = NULL;
+	elem->delete = NULL; // No special cleanup needed
 
 	elem->data = malloc(sizeof(struct GuiBoxData));
 	if (elem->data == NULL) {
