@@ -25,6 +25,7 @@ struct GuiElement *gui_box_create(struct GuiElement *parent, struct Pixel fill_c
 	elem->send_input = NULL;
 	elem->layout = NULL;
 
+	elem->update_type = GUI_UPDATE_STATIC;
 	elem->update = gui_box_update;
 	elem->delete = NULL;
 
