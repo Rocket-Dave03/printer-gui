@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #include "buffer.h"
+#include "gui/gui_types.h"
 #include "gui/gui_element.h"
 
 #define LAYOUT_INDEX_NOTFOUND UINT32_MAX
