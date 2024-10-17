@@ -102,11 +102,11 @@ struct GuiSize layout_get_child_size(struct GuiLayout *self, uint32_t child_idx)
 }
 
 
-void layout_send_update(struct GuiLayout *self) {
+void layout_send_update(struct GuiLayout *self, GuiUpdateType type) {
 	for(uint32_t i = 0; i < self->_childCount; i++) {
 		struct GuiElement *child = self->_children[i];
-		if (child->update != NULL) {
-			child->update(child);
+		if (child != NULL) {
+			gui_propogate_update(child, type);
 		}
 	}
 }
