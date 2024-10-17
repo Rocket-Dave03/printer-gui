@@ -15,6 +15,7 @@ struct GuiLayout *gui_layout_vertical_create(struct GuiElement *parent) {
 	self->get_child_position = gui_layout_vertical_get_child_position;
 	self->get_child_size = gui_layout_vertical_get_child_size;
 
+	gui_propogate_update(parent, GUI_UPDATE_STATIC);
 	return self;
 }
 

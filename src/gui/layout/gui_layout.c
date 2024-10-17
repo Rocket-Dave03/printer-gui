@@ -45,7 +45,7 @@ void layout_add_child(struct GuiLayout *self, struct GuiElement *child) {
 	self->_children[self->_childCount] = child;
 	self->_childCount += 1;
 	child->parent = self;
-	layout_send_update(self);
+	layout_send_update(self, GUI_UPDATE_STATIC);
 }
 
 void layout_remove_child_ptr(struct GuiLayout *self, struct GuiElement *child) {
@@ -74,7 +74,7 @@ void layout_remove_child_idx(struct GuiLayout *self, uint32_t child_idx) {
 	}
 	self->_childCount -= 1;
 	self->_children = reallocarray(self->_children, sizeof(struct GuiElement *), self->_childCount);
-	layout_send_update(self);
+	layout_send_update(self, GUI_UPDATE_STATIC);
 }
 
 struct GuiElement *layout_get_child(struct GuiLayout *self, uint32_t index) {

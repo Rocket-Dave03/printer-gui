@@ -27,7 +27,7 @@ void gui_delete_element(struct GuiElement *self) {
 void gui_propogate_update(struct GuiElement *elem, GuiUpdateType type) {
 	elem->update(elem);
 	if (elem->layout != NULL) {
-		layout_send_update(elem->layout);
+		layout_send_update(elem->layout, type);
 	}
 }
 

@@ -36,4 +36,4 @@ uint32_t layout_get_child_index(struct GuiLayout *self, struct GuiElement *child
 struct LayoutPos layout_get_child_position(struct GuiLayout *self, uint32_t child_idx);
 struct GuiSize layout_get_child_size(struct GuiLayout *self, uint32_t child_idx);
 
-void layout_send_update(struct GuiLayout *self);
+void layout_send_update(struct GuiLayout *self, GuiUpdateType type);
