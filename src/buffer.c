@@ -7,6 +7,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <stddef.h>
+#include <stdio.h>
 
 #include "pixel.h"
 
@@ -49,6 +50,9 @@ void delete_buffer(struct Buffer *buf) {
 int resize_buffer(struct Buffer *buf, uint32_t width, uint32_t height) {
 	struct Pixel *new_data = realloc(buf->pixels, sizeof(struct Pixel) * width * height);
 	if (new_data == NULL) {
+		fprintf(stderr, "Failed to resize buffer: width: %d, height: %d\n", width, height);
+
+		perror("resize_buffer");
 		return -1;
 	}
 	buf->pixels = new_data;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gui/layout/gui_layout.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <sys/types.h>
@@ -36,11 +37,13 @@ struct GuiSize {
 };
 
 struct GuiElement {
-	struct GuiElement *parent;
+	struct GuiLayout *parent;
+	struct GuiLayout *layout;
 
 	GuiUpdateType update_type;
 	bool selectable;
 	bool selected;
+	void (*delete)(struct GuiElement *self);
 	void (*update)(struct GuiElement *self); // Only for GUI_DYNAMIC
 	void (*send_input)(struct GuiElement *self);
 		
@@ -48,8 +51,6 @@ struct GuiElement {
 	struct GuiStyle style;
 	struct Buffer *buf;
 
-	uint32_t _childCount;
-	struct GuiElement **_children;
 	struct GuiSize _size;
 };
 
@@ -66,3 +67,5 @@ void gui_set_style_padding(struct GuiElement *self, struct Padding padding);
 void gui_set_style_margin(struct GuiElement *self, struct Padding margin);
 
 struct GuiSize gui_get_max_internal_size(struct GuiElement *self);
+
+void gui_show(struct GuiElement *self, struct Buffer *buf, uint32_t x, uint32_t y);
