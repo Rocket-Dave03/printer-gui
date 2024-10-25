@@ -14,6 +14,8 @@
 
 struct Buffer *create_buffer(uint32_t width, uint32_t height) {
 	struct Buffer *buf = malloc(sizeof(struct Buffer));
+	memset(buf, 0, sizeof(struct Buffer));
+
 	if (buf == NULL) {
 		goto free_buf;
 	}

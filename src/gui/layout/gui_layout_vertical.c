@@ -2,11 +2,13 @@
 #include "gui/layout/gui_layout.h"
 #include "gui/gui_element.h"
 
+#include "string.h"
 #include <stdint.h>
 #include <stdlib.h>
 
 struct GuiLayout *gui_layout_vertical_create(struct GuiElement *parent) {
 	struct GuiLayout *self = malloc(sizeof(struct GuiLayout));
+	memset(self, 0, sizeof(struct GuiLayout));
 
 	self->parent = parent;
 	parent->layout = self;

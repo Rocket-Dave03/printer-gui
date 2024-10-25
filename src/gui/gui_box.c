@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 struct GuiBoxData {
@@ -15,6 +16,8 @@ struct GuiBoxData {
 
 struct GuiElement *gui_box_create(struct GuiElement *parent, struct Pixel fill_color) {
 	struct GuiElement *elem = malloc(sizeof(struct GuiElement));
+	memset(elem, 0, sizeof(struct GuiElement));
+	
 	if (elem == NULL) {
 		fprintf(stderr, "Failed to create gui_box");
 		return NULL;
