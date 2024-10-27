@@ -11,7 +11,7 @@
 #include "pixel.h"
 #include "gui/gui_element.h"
 
-#include "stb_image_write.h"
+#include "3rdparty/stb_image_write.h"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
