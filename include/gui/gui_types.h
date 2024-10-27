@@ -7,11 +7,10 @@
 
 typedef uint8_t GuiUpdateType;
 
-#define GUI_UPDATE_STATIC		((GuiUpdateType)1)
-#define GUI_UPDATE_INPUT		((GuiUpdateType)2)
-#define GUI_UPDATE_PER_FRAME	((GuiUpdateType)3)
-#define GUI_UPDATE_PER_SECOND	((GuiUpdateType)4)
-
+#define GUI_UPDATE_STATIC ((GuiUpdateType)1)
+#define GUI_UPDATE_INPUT ((GuiUpdateType)2)
+#define GUI_UPDATE_PER_FRAME ((GuiUpdateType)3)
+#define GUI_UPDATE_PER_SECOND ((GuiUpdateType)4)
 
 enum GuiInput {
 	WHEEL_LEFT,
@@ -36,5 +35,4 @@ struct GuiSize {
 	uint32_t height;
 };
 
-
-#endif //GUI_TYPES_H
+#endif // GUI_TYPES_H

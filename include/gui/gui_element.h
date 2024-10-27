@@ -1,10 +1,10 @@
 #pragma once
 
+#include "gui/gui_types.h"
 #include "gui/layout/gui_layout.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <sys/types.h>
-
 
 struct GuiElement {
 	struct GuiLayout *parent;
@@ -16,14 +16,13 @@ struct GuiElement {
 	void (*delete)(struct GuiElement *self);
 	void (*update)(struct GuiElement *self); // Only for GUI_DYNAMIC
 	void (*send_input)(struct GuiElement *self);
-		
+
 	void *data;
 	struct GuiStyle style;
 	struct Buffer *buf;
 
 	struct GuiSize _size;
 };
-
 
 void gui_delete_element(struct GuiElement *self);
 

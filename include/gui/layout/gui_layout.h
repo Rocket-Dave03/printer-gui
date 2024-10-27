@@ -1,11 +1,11 @@
 #pragma once
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 #include "buffer.h"
-#include "gui/gui_types.h"
 #include "gui/gui_element.h"
+#include "gui/gui_types.h"
 
 #define LAYOUT_INDEX_NOTFOUND UINT32_MAX
 
@@ -19,8 +19,8 @@ struct GuiLayout {
 	uint32_t _childCount;
 	struct GuiElement **_children;
 
-	struct LayoutPos(* get_child_position)(struct GuiLayout *self, uint32_t child_idx);
-	struct GuiSize(* get_child_size)(struct GuiLayout *self, uint32_t child_idx);
+	struct LayoutPos (*get_child_position)(struct GuiLayout *self, uint32_t child_idx);
+	struct GuiSize (*get_child_size)(struct GuiLayout *self, uint32_t child_idx);
 };
 
 void layout_delete(struct GuiLayout *self);

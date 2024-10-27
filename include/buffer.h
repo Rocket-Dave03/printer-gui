@@ -1,13 +1,13 @@
 #pragma once
 
 #include "pixel.h"
-#include <sys/types.h>
 #include <stdbool.h>
+#include <sys/types.h>
 
 struct Buffer {
 	uint32_t width;
 	uint32_t height;
-	struct Pixel *pixels;	
+	struct Pixel *pixels;
 };
 
 struct Buffer *create_buffer(uint32_t width, uint32_t height);

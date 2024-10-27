@@ -1,6 +1,6 @@
 #include "gui/layout/gui_layout_vertical.h"
-#include "gui/layout/gui_layout.h"
 #include "gui/gui_element.h"
+#include "gui/layout/gui_layout.h"
 
 #include "string.h"
 #include <stdint.h>
@@ -25,13 +25,13 @@ struct GuiLayout *gui_layout_vertical_create(struct GuiElement *parent) {
 struct LayoutPos gui_layout_vertical_get_child_position(struct GuiLayout *self, uint32_t child_idx) {
 	struct LayoutPos pos = {self->parent->style.padding.left, self->parent->style.padding.top};
 	uint32_t current_idx = 0;
-	while(current_idx <= child_idx) {
+	while (current_idx <= child_idx) {
 		struct GuiElement *child = self->_children[current_idx];
 		if (current_idx == child_idx) {
 			pos.x += child->style.margin.left;
 			pos.y += child->style.margin.top;
 		} else {
-			struct GuiSize child_size = self->get_child_size(self,current_idx);
+			struct GuiSize child_size = self->get_child_size(self, current_idx);
 			pos.y += child->style.margin.top;
 			pos.y += child->style.padding.top;
 			pos.y += child_size.height;
@@ -43,7 +43,6 @@ struct LayoutPos gui_layout_vertical_get_child_position(struct GuiLayout *self, 
 	return pos;
 }
 
-
 struct GuiSize gui_layout_vertical_get_child_size(struct GuiLayout *self, uint32_t child_idx) {
 	struct GuiSize total_size = gui_get_max_internal_size(self->parent);
 	struct GuiElement *child = self->_children[child_idx];
@@ -54,7 +53,7 @@ struct GuiSize gui_layout_vertical_get_child_size(struct GuiLayout *self, uint32
 
 	uint ret_x = (total_size.width) - margin.left - margin.right - padding_h;
 	uint ret_y = (total_size.height / self->_childCount) - margin.top - margin.bottom - padding_v;
-	return (struct GuiSize) {
+	return (struct GuiSize){
 		ret_x,
 		ret_y,
 	};
