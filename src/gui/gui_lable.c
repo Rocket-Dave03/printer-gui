@@ -39,14 +39,14 @@ struct GuiElement *gui_lable_create(struct GuiElement *parent, struct Pixel fill
 	((struct GuiLableData *)elem->data)->color = fill_color;
 	((struct GuiLableData *)elem->data)->text = text;
 
-
 	elem->style = (struct GuiStyle){
 		{5, 5, 5, 5},
 		{0, 0, 0, 0},
 	};
 
 	int text_len = strlen(text);
-	struct Buffer *buf = create_buffer(FONT_SIZE * text_len, FONT_SIZE);
+	FontSize size = get_font_size();
+	struct Buffer *buf = create_buffer(size.width * text_len, size.height);
 	elem->_size = (struct GuiSize){32, 32};
 	if (buf == NULL) {
 		fprintf(stderr, "Failed to create_buffer");
@@ -59,16 +59,15 @@ struct GuiElement *gui_lable_create(struct GuiElement *parent, struct Pixel fill
 		layout_add_child(parent->layout, elem);
 	}
 
-	struct Buffer *char_buf = create_buffer(FONT_SIZE, FONT_SIZE);
-	for(int i = 0; i < text_len; i++) {
+	struct Buffer *char_buf = create_buffer(size.width, size.height);
+	for (int i = 0; i < text_len; i++) {
 		write_glyph_to_buffer(text[i], char_buf);
-		write_buffer(buf, char_buf, FONT_SIZE*i, 0);
+		write_buffer(buf, char_buf, size.width * i, 0);
 	}
 	delete_buffer(char_buf);
 
 	return elem;
 }
-
 
 void gui_lable_update(struct GuiElement *self) {
 	if (self->parent == NULL) {
@@ -93,15 +92,14 @@ void gui_lable_update(struct GuiElement *self) {
 	self->_size.width = self->buf->width;
 	self->_size.height = self->buf->height;
 
-	// TODO: Fix lowercase letters sticking to top of lable instead of bottom
+	FontSize size = get_font_size();
+	// TODO: Fix character pposition of char such as ` or '
 	const char *text = ((struct GuiLableData *)self->data)->text;
 	int text_len = strlen(text);
-	struct Buffer *char_buf = create_buffer(FONT_SIZE, FONT_SIZE);
-	for(int i = 0; i < text_len; i++) {
+	struct Buffer *char_buf = create_buffer(size.width, size.height);
+	for (int i = 0; i < text_len; i++) {
 		write_glyph_to_buffer(text[i], char_buf);
-		write_buffer(self->buf, char_buf, FONT_SIZE*i, 0);
+		write_buffer(self->buf, char_buf, size.width * i, 0);
 	}
 	delete_buffer(char_buf);
-
 }
-

@@ -2,15 +2,17 @@
 
 #include "buffer.h"
 
-#include <stdio.h>
+#include <assert.h>
 #include <linux/limits.h>
+#include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
-
 
 FT_Library freetype;
 FT_Face font;
+
+#define FONT_SIZE 32
 
 char *get_font_file() {
 	FILE *command = popen("fc-match monospace file", "r");
@@ -53,6 +55,26 @@ void load_font(const char *filename) {
 	printf("Succesfuly loaded font: \"%s\"\n", font->family_name);
 }
 
+FontSize get_font_size() {
+	FontSize size = {};
+
+	FT_Set_Pixel_Sizes(font, 0, FONT_SIZE);
+	FT_UInt glyph_index = FT_Get_Char_Index(font, 'm');
+	FT_Load_Glyph(font, glyph_index, FT_LOAD_DEFAULT);
+	FT_Render_Glyph(font->glyph, FT_RENDER_MODE_NORMAL);
+
+	FT_Bitmap bitmap = font->glyph->bitmap;
+	size.width = bitmap.width;
+	glyph_index = FT_Get_Char_Index(font, 'l');
+	FT_Load_Glyph(font, glyph_index, FT_LOAD_DEFAULT);
+	FT_Render_Glyph(font->glyph, FT_RENDER_MODE_NORMAL);
+
+	bitmap = font->glyph->bitmap;
+	size.height = bitmap.rows;
+
+	return size;
+}
+
 void write_glyph_to_buffer(char character, struct Buffer *buf) {
 	if (buf == NULL) {
 		fprintf(stderr, "Unable to write glyph to NULL Buffer\n.");
@@ -66,13 +88,15 @@ void write_glyph_to_buffer(char character, struct Buffer *buf) {
 	fill_buffer(buf, (struct Pixel){0, 0, 0, 0});
 	assert(font->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_GRAY);
 	FT_Bitmap bitmap = font->glyph->bitmap;
+	printf("Bitmap size %dx%d\n", bitmap.width, bitmap.rows);
+	uint32_t y_offset = buf->height - bitmap.rows;
 	for (int x = 0; x < font->glyph->bitmap.width; x++) {
 		for (int y = 0; y < font->glyph->bitmap.rows; y++) {
 			char value = bitmap.buffer[y * bitmap.pitch + x];
 			if (value == 0) {
-				write_pixel_to_buffer(buf, x, y, (struct Pixel){0, 0, 0, 0});
+				write_pixel_to_buffer(buf, x, y + y_offset, (struct Pixel){0, 0, 0, 0});
 			} else {
-				write_pixel_to_buffer(buf, x, y, (struct Pixel){value, value, value, 255});
+				write_pixel_to_buffer(buf, x, y + y_offset, (struct Pixel){value, value, value, 255});
 			}
 		}
 	}

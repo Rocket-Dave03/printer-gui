@@ -40,7 +40,7 @@ int main() {
 
 		struct GuiElement *row_2 = gui_box_create(box, (struct Pixel){100, 150, 100, 255});
 		gui_layout_horizontal_create(row_2);
-		gui_lable_create(row_2, (struct Pixel){50, 150, 50, 255}, "Lorem");
+		gui_lable_create(row_2, (struct Pixel){50, 150, 50, 255}, "Start Print");
 		// gui_box_create(row_2, (struct Pixel){ 90,150, 90,255});
 		// gui_box_create(row_2, (struct Pixel){120,150,120,255});
 

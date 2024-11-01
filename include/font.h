@@ -3,12 +3,16 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
-#include <stdint.h>
 #include "buffer.h"
+#include <stdint.h>
 
-#define FONT_SIZE 32
+typedef struct {
+	uint32_t width;
+	uint32_t height;
+} FontSize;
 
 void init_freetype();
 char *get_font_file();
 void load_font(const char *filename);
+FontSize get_font_size();
 void write_glyph_to_buffer(char character, struct Buffer *buf);
