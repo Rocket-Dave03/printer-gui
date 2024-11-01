@@ -12,7 +12,7 @@
 FT_Library freetype;
 FT_Face font;
 
-#define FONT_SIZE 32
+#define FONT_SIZE 16
 
 char *get_font_file() {
 	FILE *command = popen("fc-match monospace file", "r");
@@ -83,20 +83,23 @@ void write_glyph_to_buffer(char character, struct Buffer *buf) {
 	FT_Set_Pixel_Sizes(font, 0, FONT_SIZE);
 	FT_UInt glyph_index = FT_Get_Char_Index(font, character);
 	FT_Load_Glyph(font, glyph_index, FT_LOAD_DEFAULT);
-	FT_Render_Glyph(font->glyph, FT_RENDER_MODE_NORMAL);
+	FT_Render_Glyph(font->glyph, FT_RENDER_MODE_LCD);
 
 	fill_buffer(buf, (struct Pixel){0, 0, 0, 0});
-	assert(font->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_GRAY);
+	assert(font->glyph->bitmap.pixel_mode == FT_PIXEL_MODE_LCD);
 	FT_Bitmap bitmap = font->glyph->bitmap;
-	printf("Bitmap size %dx%d\n", bitmap.width, bitmap.rows);
-	uint32_t y_offset = buf->height - bitmap.rows;
-	for (int x = 0; x < font->glyph->bitmap.width; x++) {
+
+	uint32_t y_offset = buf->height - font->glyph->bitmap_top;
+	for (int x = 0; x < font->glyph->bitmap.width / 3; x++) {
 		for (int y = 0; y < font->glyph->bitmap.rows; y++) {
-			char value = bitmap.buffer[y * bitmap.pitch + x];
-			if (value == 0) {
-				write_pixel_to_buffer(buf, x, y + y_offset, (struct Pixel){0, 0, 0, 0});
+			uint8_t r = bitmap.buffer[y * bitmap.pitch + x * 3 + 0];
+			uint8_t g = bitmap.buffer[y * bitmap.pitch + x * 3 + 1];
+			uint8_t b = bitmap.buffer[y * bitmap.pitch + x * 3 + 2];
+
+			if (g <= 128) {
+				write_pixel_to_buffer(buf, x + font->glyph->bitmap_left, y + y_offset, (struct Pixel){0, 0, 0, 0});
 			} else {
-				write_pixel_to_buffer(buf, x, y + y_offset, (struct Pixel){value, value, value, 255});
+				write_pixel_to_buffer(buf, x + font->glyph->bitmap_left, y + y_offset, (struct Pixel){r, g, b, 255});
 			}
 		}
 	}

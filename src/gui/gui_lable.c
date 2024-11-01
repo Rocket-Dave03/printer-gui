@@ -93,7 +93,6 @@ void gui_lable_update(struct GuiElement *self) {
 	self->_size.height = self->buf->height;
 
 	FontSize size = get_font_size();
-	// TODO: Fix character pposition of char such as ` or '
 	const char *text = ((struct GuiLableData *)self->data)->text;
 	int text_len = strlen(text);
 	struct Buffer *char_buf = create_buffer(size.width, size.height);
