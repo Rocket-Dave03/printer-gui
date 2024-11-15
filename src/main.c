@@ -15,10 +15,34 @@
 #include "3rdparty/stb_image_write.h"
 
 struct GuiElement *main_element;
+struct termios initial_state;
 
 #include <assert.h>
+#include <termios.h>
+
+void reset_terminal() { tcsetattr(0, TCSAFLUSH, &initial_state); }
+
+void prepare_term() {
+	struct termios term = {};
+	memcpy(&term, &initial_state, sizeof(struct termios));
+
+	term.c_lflag &= ~(ECHO | ICANON);
+
+	tcsetattr(0, TCSANOW, &term);
+}
+
+char read_char() {
+	char c;
+	read(0, &c, 1);
+	return c;
+}
 
 int main() {
+	tcgetattr(0, &initial_state);
+	atexit(reset_terminal);
+
+	prepare_term();
+
 	init_freetype();
 	load_font(get_font_file());
 	struct Buffer *render_buffer = create_buffer(240, 320);
@@ -53,13 +77,35 @@ int main() {
 	gui_propogate_update(box, GUI_UPDATE_STATIC);
 
 	while (1) {
+		char c = read_char();
+		// printf("char: %c = %d\n\r", c, (int)c);
+		if (c == 3) {
+			return 0;
+		}
+		if (c == '\n' || c == ' ') {
+			printf("CLICK!\n");
+		}
+
+		if (c == 27) {
+			c = read_char();
+			if (c == '[') {
+				c = read_char();
+				if (c == 'A') {
+					printf("UP!\n");
+				}
+				if (c == 'B') {
+					printf("DOWN!\n");
+				}
+			}
+		}
+
 		fill_buffer(render_buffer, (struct Pixel){0, 0, 0, 255});
 		gui_show(box, render_buffer, 0, 0);
 
 		stbi_write_png("/run/user/1000/test.png", render_buffer->width, render_buffer->height, 4,
 					   (render_buffer->pixels), render_buffer->width * sizeof(struct Pixel));
 		usleep(1000 * 1000 / 60);
-		break;
+		// break;
 	}
 	gui_delete_element(box);
 	delete_buffer(render_buffer);
